@@ -157,6 +157,8 @@ insta %>%
 
 * Question 3: Make a table showing the most popular item in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”.
 
+The table for the most popular items in these aisles is as follows:
+
 ```{r}
 insta %>% 
   filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>% 
@@ -164,6 +166,21 @@ insta %>%
   summarise(product_count = n()) %>%
   filter(product_count == max(product_count)) %>% 
   select(-product_count) %>% 
+  knitr::kable()
+
+```
+
+* Question 4: Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+
+```{r}
+insta %>% 
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
+  group_by(product_name, order_dow) %>%
+  mutate(mean_hour = mean(order_hour_of_day)) %>% 
+  select(product_name, order_dow, mean_hour) %>%
+  distinct() %>%  
+  spread(key = order_dow, value = mean_hour) %>% 
+  rename(Product = product_name, Sunday = "0", Monday = "1", Tuesday = "2", Wednesday = "3", Thursday = "4", Friday = "5", Saturday = "6") %>% 
   knitr::kable()
 
 ```
