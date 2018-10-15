@@ -152,5 +152,19 @@ insta %>%
     y = "Number of items ordered",
     caption = "Data from the instacart package"
   ) +
-   geom_text(aes(label=ifelse(item_count > 35000, as.character(aisle),'')), hjust = 1.1, vjust = 1.1)
+   geom_text(aes(label = ifelse(item_count > 35000, as.character(aisle),'')), hjust = 1.1, vjust = 1.1)
 ```
+
+* Question 3: Make a table showing the most popular item in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”.
+
+```{r}
+insta %>% 
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>% 
+  group_by(aisle, product_name) %>% 
+  summarise(product_count = n()) %>%
+  filter(product_count == max(product_count)) %>% 
+  select(-product_count) %>% 
+  knitr::kable()
+
+```
+
