@@ -116,5 +116,18 @@ insta = instacart %>%
 ###Summarizing the dataset
 We will examine the instacart dataset. Instacart is an online grocery service that allows you to shop online from local stores.This dataset has `r nrow(insta)` observations and `r ncol(insta)` variables. The variables `aisle`, `department`, `eval_set` and `product_name` are of class `character`, whereas  all remaining variables are of class `integer`. 
 
+###Answering questions
+* Question 1: How many aisles are there, and which aisles are the most items ordered from?
 
+**There are `r insta %>% pull(aisle) %>% n_distinct()` aisles in this dataset**.
 
+Most items are ordered from **aisle 24 for fresh fruits and aisle 123 for packaged vegetables fruits** as seen below.
+
+```{r}
+insta %>% 
+  group_by(product_id, aisle_id, aisle) %>% 
+ count() %>% 
+  arrange(desc(n)) %>% 
+  head() %>% 
+  knitr::kable()
+```
