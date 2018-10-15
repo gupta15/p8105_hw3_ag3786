@@ -73,3 +73,35 @@ brfss %>%
   )
 ```
 
+* Question 3: Make a table showing, for the years 2002, 2006, and 2010, the mean and standard deviation of the proportion of “Excellent” responses across locations in NY State.
+
+
+
+* Question 4: For each year and state, compute the average proportion in each response category (taking the average across locations in a state). Make a five-panel plot that shows, for each response category separately, the distribution of these state-level averages over time.
+
+```{r}
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
+brfss %>% 
+  group_by(year, locationabbr, response) %>% 
+  summarise(avg_response = mean(data_value)) %>% 
+  rename(states = locationabbr) %>% 
+  ggplot(aes(x = year, y = avg_response)) + geom_smooth(aes(color = states), se = FALSE) + 
+  facet_grid(. ~ response) +
+  labs(
+    title = "State-level averages of response categories over time",
+    x = "Year",
+    y = "Average responses",
+    caption = "Data from the BRFSS package"
+  )
+
+  
+
+```
+
