@@ -217,3 +217,21 @@ There appear to be significant missing values for the variables `tmax`, `tmin`, 
 skimr::skim(noaa)
 ```
 
+* Question 1: Do some data cleaning. Create separate variables for year, month, and day. Ensure observations for temperature, precipitation, and snowfall are given in reasonable units. For snowfall, what are the most commonly observed values? Why?
+
+```{r}
+noaa = noaa %>% 
+  mutate(
+    year = lubridate::floor_date(date, unit = "year"), 
+    month = lubridate::floor_date(date, unit = "month"), 
+    day = lubridate::floor_date(date, unit = "day"),
+    prcp = prcp / 10,
+    tmin = as.integer(tmin) / 10,
+    tmax = as.integer(tmax) / 10,
+    ) 
+```
+
+* Added variables for year, month, and day based on the date
+* Changed units for prcp, tmin and tmax as they were in the tenths of the desired units. Also changed tmin and tmax to integers before dividing by 10.
+* Most commonly observed values for snowfall are `r noaa %>% pull(snow) %>% median(na.rm = TRUE)`
+
