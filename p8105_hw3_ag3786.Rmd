@@ -13,7 +13,7 @@ library(patchwork)
 ```
 
 ## **Problem 1**
-###Importing the CSV and data cleaning
+###Reading and cleaning the dataset
 
 * Importing the BRFSS dataset from p8105.datasets.
 * Cleaning variable names
@@ -100,8 +100,20 @@ brfss %>%
     y = "Average responses",
     caption = "Data from the BRFSS package"
   )
-
-  
-
 ```
+
+## **Problem 2**
+###IReading and cleaning the dataset
+
+```{r, cache=TRUE}
+library(p8105.datasets)
+data(instacart)
+
+insta = instacart %>% 
+  janitor::clean_names()
+```
+
+###Summarizing the dataset
+We will examine the instacart dataset. This dataset has `r nrow(insta)` observations and `r ncol(insta)` variables. The variables `aisle`, `department`, `eval_set` and `product_name` are of class `character`, whereas  all remaining variables are of class `integer`. 
+
 
