@@ -20,3 +20,27 @@ knitr::opts_chunk$set(
 
 theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
+
+## **Problem 1**
+###Importing the CSV and data cleaning
+
+* Importing the BRFSS dataset from p8105.datasets.
+* Cleaning variable names
+* Focusing on the topic "Overall Health"
+* Formatted the data to keep only the useful variables
+* Arranged reponses ordered from Excellent to Poor
+
+```{r, data_import, cache=TRUE}
+library(p8105.datasets)
+data(brfss_smart2010)
+```
+
+```{r}
+brfss = brfss_smart2010 %>% 
+  janitor::clean_names() %>% 
+  filter(topic == "Overall Health") %>% 
+  select(-class, -topic, -question, -sample_size, -(confidence_limit_low:geo_location)) %>% 
+    mutate(response = fct_relevel(response, c("Excellent", "Very good", "Good", "Fair", "Poor"))) %>%
+  arrange(response)
+```
+
